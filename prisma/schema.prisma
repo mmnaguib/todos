@@ -8,20 +8,9 @@ generator client {
 }
 
 model Todo {
-    id          String    @id @default(auto()) @map("_id") @db.ObjectId
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
     title       String
     body        String?
-    author      User      @relation(fields: [authorId], references: [id])
-    authorId    String    @db.ObjectId
-    createdAt   DateTime?
-    isCompleted Boolean   @default(false)
-}
-
-model User {
-    id          String    @id @default(auto()) @map("_id") @db.ObjectId
-    email       String    @unique
-    name        String?
-    profile_img String?
-    todos       Todo[]
-    createdAt   DateTime?
+    createdAt   DateTime @default(now())
+    isCompleted Boolean  @default(false)
 }

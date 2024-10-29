@@ -1,9 +1,14 @@
+import { getAllTodos } from "@/actions/todoActions";
 import AddTodo from "@/components/AddTodo";
+import TodoTable from "@/components/TodoTable";
+import { ITodo } from "@/interfaces";
 
-export default function Home() {
+export default async function Home() {
+  const todos: ITodo[] = await getAllTodos();
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between">
+    <div className="container mx-auto">
       <AddTodo />
+      <TodoTable todos={todos} />
     </div>
   );
 }

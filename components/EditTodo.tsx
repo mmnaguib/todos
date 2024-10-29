@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { Edit } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import {
   Form,
@@ -23,19 +23,21 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TodoFormSchema, TodoFormValues } from "@/zodSchemas/addTodoSchema";
 import { useForm } from "react-hook-form";
-import { addTodo } from "@/actions/todoActions";
+import { editTodo } from "@/actions/todoActions";
 import { Checkbox } from "./ui/checkbox";
 import { useState } from "react";
 import Spinner from "./ui/spinner";
+import { ITodo } from "@/interfaces";
 
-const AddTodo = () => {
-  const defaultValues: Partial<TodoFormValues> = {
-    title: "",
-    body: "",
-    isCompleted: false,
-  };
+const EditTodo = ({ todo }: { todo: ITodo }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const defaultValues: Partial<TodoFormValues> = {
+    title: todo?.title,
+    body: todo?.body || "",
+    isCompleted: todo?.isCompleted,
+  };
   const form = useForm<TodoFormValues>({
     resolver: zodResolver(TodoFormSchema),
     defaultValues,
@@ -44,24 +46,26 @@ const AddTodo = () => {
 
   const onSubmit = async (data: TodoFormValues) => {
     setLoading(true);
-    await addTodo(data);
+    await editTodo({
+      id: todo.id,
+      title: data.title,
+      body: data.body as string,
+      isCompleted: data.isCompleted,
+    });
     setLoading(false);
     setOpen(false);
     form.reset();
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <div className="text-right">
-        <DialogTrigger asChild>
-          <Button variant="default">
-            <Plus />
-            New Todo
-          </Button>
-        </DialogTrigger>
-      </div>
+      <DialogTrigger asChild>
+        <Button variant="default" size={"icon"}>
+          <Edit />
+        </Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Todo</DialogTitle>
+          <DialogTitle>Edit Todo</DialogTitle>
           <DialogDescription>
             Make changes to your Todo here. Click save when you are done.
           </DialogDescription>
@@ -126,7 +130,7 @@ const AddTodo = () => {
             </DialogDescription>
             <DialogFooter>
               <Button disabled={loading} type="submit">
-                {loading ? <Spinner /> : "Submit"}
+                {loading ? <Spinner /> : "Edit"}
               </Button>
             </DialogFooter>
           </form>
@@ -136,4 +140,4 @@ const AddTodo = () => {
   );
 };
 
-export default AddTodo;
+export default EditTodo;
