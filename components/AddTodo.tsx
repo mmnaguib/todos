@@ -33,7 +33,6 @@ const AddTodo = ({ userId }: { userId: string | null }) => {
     title: "",
     body: "",
     isCompleted: false,
-    userId: "",
   };
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -45,7 +44,12 @@ const AddTodo = ({ userId }: { userId: string | null }) => {
 
   const onSubmit = async ({ title, body, isCompleted }: TodoFormValues) => {
     setLoading(true);
-    await addTodo({ title, body, isCompleted, userId: userId as string });
+    await addTodo({
+      title,
+      body: body as string,
+      isCompleted,
+      userId: userId as string,
+    });
     setLoading(false);
     setOpen(false);
     form.reset();
