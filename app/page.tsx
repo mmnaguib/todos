@@ -2,12 +2,14 @@ import { getAllTodos } from "@/actions/todoActions";
 import AddTodo from "@/components/AddTodo";
 import TodoTable from "@/components/TodoTable";
 import { ITodo } from "@/interfaces";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function Home() {
-  const todos: ITodo[] = await getAllTodos();
+  const { userId }: { userId: string | null } = await auth();
+  const todos: ITodo[] = await getAllTodos({ userId: userId as string });
   return (
     <div className="container mx-auto">
-      <AddTodo />
+      <AddTodo userId={userId} />
       <TodoTable todos={todos} />
     </div>
   );

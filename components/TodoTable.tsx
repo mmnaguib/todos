@@ -1,8 +1,8 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -11,16 +11,14 @@ import { ITodo } from "@/interfaces";
 import { Badge } from "./ui/badge";
 import TodoActionsBtns from "./TodoActionsBtns";
 const TodoTable = ({ todos }: { todos: ITodo[] }) => {
-  return (
+  return todos.length > 0 ? (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Title</TableHead>
           <TableHead>Body</TableHead>
           <TableHead>Completed</TableHead>
-          <TableHead>Created At</TableHead>
-          <TableHead>Actions</TableHead>
+          <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -35,16 +33,21 @@ const TodoTable = ({ todos }: { todos: ITodo[] }) => {
                 <Badge variant="secondary">Not Completed</Badge>
               )}
             </TableCell>
-            <TableCell className="font-medium">
-              {todo.createdAt.toUTCString()}
-            </TableCell>
-            <TableCell>
+            <TableCell className="text-right">
               <TodoActionsBtns todo={todo} />
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell className="text-right">{todos && todos.length}</TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
+  ) : (
+    "This User hasn't Any Todos"
   );
 };
 

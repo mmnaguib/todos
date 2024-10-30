@@ -26,13 +26,14 @@ import { useForm } from "react-hook-form";
 import { addTodo } from "@/actions/todoActions";
 import { Checkbox } from "./ui/checkbox";
 import { useState } from "react";
-import Spinner from "./ui/spinner";
+import Spinner from "./ui/Spinner";
 
-const AddTodo = () => {
+const AddTodo = ({ userId }: { userId: string | null }) => {
   const defaultValues: Partial<TodoFormValues> = {
     title: "",
     body: "",
     isCompleted: false,
+    userId: "",
   };
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -42,9 +43,9 @@ const AddTodo = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data: TodoFormValues) => {
+  const onSubmit = async ({ title, body, isCompleted }: TodoFormValues) => {
     setLoading(true);
-    await addTodo(data);
+    await addTodo({ title, body, isCompleted, userId: userId as string });
     setLoading(false);
     setOpen(false);
     form.reset();

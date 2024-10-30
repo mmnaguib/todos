@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Trash } from "lucide-react";
 import { deleteTodo } from "@/actions/todoActions";
-import Spinner from "./ui/spinner";
+import Spinner from "./ui/Spinner";
 import EditTodo from "./EditTodo";
 import { ITodo } from "@/interfaces";
 

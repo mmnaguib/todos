@@ -26,7 +26,7 @@ import { useForm } from "react-hook-form";
 import { editTodo } from "@/actions/todoActions";
 import { Checkbox } from "./ui/checkbox";
 import { useState } from "react";
-import Spinner from "./ui/spinner";
+import Spinner from "./ui/Spinner";
 import { ITodo } from "@/interfaces";
 
 const EditTodo = ({ todo }: { todo: ITodo }) => {
@@ -54,7 +54,6 @@ const EditTodo = ({ todo }: { todo: ITodo }) => {
     });
     setLoading(false);
     setOpen(false);
-    form.reset();
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
